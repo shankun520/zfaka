@@ -14,6 +14,7 @@ foreach(scandir("application/modules/") as $p){
         //echo $p;
         break;
     }
+    
 }
 if($flag = 1){
     echo "[+]Your current admin dir is [$path]".PHP_EOL;
@@ -28,14 +29,19 @@ if($flag = 1){
     }
     
     echo "[+]We will change [$path] to [$todir]".PHP_EOL;
-    if(rename('./application/modules/'.$path,'./application/modules/'.$todir)){
+    if(rename('./application/modules/'.$path,'./application/modules/'.$todir))
+    {
         file_put_contents('./conf/application.ini',preg_replace('/application.modules.*/i', 'application.modules = "Index,Member,Product,'.$todir.',Crontab,Install"', $applicationini));
         file_put_contents('./application/init.php',preg_replace("/.*'ADMIN_DIR.*;/i","define('ADMIN_DIR','$todir');",$init));
         echo "[+]Change [$path] to [$todir] is Success!!".PHP_EOL;
-    }else {
+    }
+    else 
+    {
         echo "[-]Change [$path] to [$todir] is Failed!!".PHP_EOL;
     }
-}else{
+}
+else
+{
     echo "[-] Can't get your admin dir.".PHP_EOL;
 }
 
